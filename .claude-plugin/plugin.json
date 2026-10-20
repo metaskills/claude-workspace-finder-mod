@@ -1,6 +1,6 @@
 {
   "name": "workspace-finder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "/proj and /jrnl: find a workspace project or journal entry by keywords and open its CLAUDE.md",
   "author": { "name": "Ken Collins", "url": "https://github.com/metaskills" },
   "homepage": "https://github.com/metaskills/claude-workspace-finder-mod",

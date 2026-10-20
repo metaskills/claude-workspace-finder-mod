@@ -1,8 +1,8 @@
 # Claude Workspace Finder
 
-**Find any project or note in your workspace by what's in it, and open it in one command.**
+**A resolver for date-prefixed Claude workspaces: find any project or note by what's in it, and open it in one command.**
 
-You keep a folder of projects and notes, each with a `CLAUDE.md` holding the goal, the status, and what you found. After a few months there are dozens of them, and finding the one you need means remembering what you named it. This [Claude Code](https://claude.com/claude-code) plugin adds `/proj` and `/jrnl`: type a few words you remember, and Claude opens that entry's notes.
+You keep a workspace of dated projects and notes, each folder with a `CLAUDE.md` holding the goal, the status, and what you found. After a few months there are dozens of them, and finding the one you need means remembering what you named it. This [Claude Code](https://claude.com/claude-code) plugin adds `/proj` and `/jrnl`: type a few words you remember, and Claude opens that entry's notes.
 
 ```
 > /proj embeddings
@@ -59,7 +59,7 @@ Then tell it where your workspace is (next section) and start a new session.
 
 ## Your workspace
 
-A Claude workspace is a folder of collections, and a collection is a folder of entries. Each entry is a folder with a `CLAUDE.md` whose first `# ` line is its title. By default the plugin reads `~/workspace` with two collections:
+The plugin is built for a workspace where every entry is a folder named with an ISO 8601 date and a short slug, `YYYY-MM-DD-slug`, holding a `CLAUDE.md` whose first `# ` line is its title. Entries are grouped into collections. By default the plugin reads `~/workspace` with two:
 
 ```
 ~/workspace/
@@ -71,15 +71,19 @@ A Claude workspace is a folder of collections, and a collection is a folder of e
 │   │   └── CLAUDE.md
 │   └── archives/                              # skipped
 └── journal/                                   # /jrnl
-    └── 2026-03-04-vendor-call-search-provider/
+    └── 2026-03-04-vendor-call/
         └── CLAUDE.md
 ```
 
-- **Folder names** are `YYYY-MM-DD-short-slug`. The date sorts entries newest first and the slug is what the picker shows. Undated folders work too and sort last.
-- **Titles** come from the first `# ` heading. A date at the end, like "- Mar 2026" or "(Jan 2026)", is dropped since the date is shown on its own.
-- **Folders** named `archives` or starting with `.` are skipped.
+The date prefix does the work, so there's nothing else to keep up:
 
-Don't have a workspace yet? Copy [`example-workspace/`](./example-workspace/) to `~/workspace`. Its `CLAUDE.md` tells Claude how to create and register new projects, so "create a new project for the Q3 launch" does the right thing from then on.
+- **The date orders it.** Matches rank newest first by folder name, and the stub commands are ranked the same way.
+- **The slug names it.** The part after the date is what the picker shows and what `/p:01-pricing-page-redesign` is named after.
+- **The title describes it.** It comes from the first `# ` heading. A date at the end, like "- Mar 2026" or "(Jan 2026)", is dropped since the date is shown on its own.
+
+Folders named `archives` or starting with `.` are skipped. A folder with no date prefix still works, but it sorts after every dated one.
+
+Don't have a workspace yet? Copy [`example-workspace/`](./example-workspace/) to `~/workspace`. Its `CLAUDE.md` tells Claude how to create and register new projects, so "create a new project for the Q3 launch" makes a correctly dated folder from then on.
 
 ## How it works
 
@@ -100,7 +104,7 @@ description: "2026-03-02 Pricing Page Redesign"
 Read /Users/you/workspace/projects/2026-03-02-pricing-page-redesign/CLAUDE.md
 ```
 
-Then it asks Claude Code to rescan commands, so they work in that same session. The two-digit rank keeps the `/` menu newest first. Without it the menu is alphabetical, and Claude Code's picker won't match across the `01-`, so `/p:pricing` finds nothing. Type `/pricing` (no namespace) or `/proj pricing` instead, or turn ranking off.
+Then it asks Claude Code to rescan commands, so they work in that same session. The two-digit rank keeps the `/` menu newest first. Claude Code's picker won't match across the `01-`, so `/p:pricing` finds nothing. Type `/pricing` with no namespace or `/proj pricing` instead, or turn ranking off for an alphabetical menu.
 
 The plugin only writes to a stub folder it created, marked by a `.workspace-stubs` file, or one that doesn't exist yet. If you already have your own `~/.claude/commands/p/`, it's left alone and `/finder-debug` says so. Stale stubs are deleted when their entry is renamed, archived or removed.
 
@@ -149,7 +153,7 @@ Run `/finder-debug`. It shows the workspace it read, the collections, how many e
 
 ## Works well with
 
-[**Claude Workspace Typeahead**](https://github.com/metaskills/claude-workspace-typeahead-mod) adds typeahead rows anywhere in a prompt: type `;pricing` mid-sentence and the entry's `CLAUDE.md` comes along as an `@` mention. Both plugins read the same settings and write the same stubs, so install either or both.
+[**Claude Workspace Typeahead**](https://github.com/metaskills/claude-workspace-typeahead-mod) makes `/` work anywhere in a prompt: type `/pricing` mid-sentence and the entry's `CLAUDE.md` comes along as an `@` mention. Both plugins read the same settings and write the same stubs, so install either or both.
 
 ## Development
 
