@@ -1,0 +1,17 @@
+{
+  "name": "claude-workspace-finder-mod",
+  "owner": {
+    "name": "Ken Collins",
+    "url": "https://github.com/metaskills"
+  },
+  "metadata": {
+    "description": "/proj and /jrnl: find a workspace project or journal entry by keywords and open its CLAUDE.md"
+  },
+  "plugins": [
+    {
+      "name": "workspace-finder",
+      "source": "./",
+      "description": "/proj and /jrnl: find a workspace project or journal entry by keywords and open its CLAUDE.md"
+    }
+  ]
+}
