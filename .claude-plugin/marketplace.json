@@ -11,7 +11,21 @@
     {
       "name": "workspace-finder",
       "source": "./",
-      "description": "/proj and /jrnl: find a workspace project or journal entry by keywords and open its CLAUDE.md"
+      "description": "/proj and /jrnl: find a workspace project or journal entry by keywords and open its CLAUDE.md",
+      "category": "productivity",
+      "keywords": [
+        "claude-code",
+        "claude-code-plugin",
+        "claude-md",
+        "context-engineering",
+        "workspace",
+        "knowledge-management",
+        "second-brain",
+        "slash-commands",
+        "search",
+        "finder",
+        "resolver"
+      ]
     }
   ]
 }
